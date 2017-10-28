@@ -1,10 +1,12 @@
 import React from 'react';
 
 import App from './client/components/App.react';
+import MessageList from './client/components/MessageList.react';
+import Message from './client/components/Message.react';
 
-const Foo = ({ props }) => (
-  <div>foo</div>
-);
+import fetchAllMessages from './lib/fetchAllMessages.js';
+
+import fetchMessage from './lib/fetchMessage';
 
 export default [
   {
@@ -12,12 +14,20 @@ export default [
     Component: App,
     children: [
       {
-        Component: () => <div>Main</div>,
+        Component: () => <div>SVZ Tech Test</div>,
       },
       {
-        path: 'foo',
-        getComponent: Foo,
+        path: 'messages',
+        getData: () => fetchAllMessages(),
+        Component: MessageList,
       },
-    ],
+      {
+        path: 'messages/:messageId',
+        Component: Message,
+        getData: ({ params: { messageId } }) => (
+          fetchMessage(messageId)
+        )
+      }
+    ] 
   },
 ];
